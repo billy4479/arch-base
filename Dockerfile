@@ -8,15 +8,13 @@ RUN pacman -U --noconfirm --needed\
 
 RUN printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf
 
-RUN pacman -Syu --noconfirm --needed zsh starship git-delta eza bat bat-extras git neovim ripgrep fd yay pfetch man-pages
+RUN pacman -Syu --noconfirm --needed zsh starship git-delta eza bat bat-extras git neovim ripgrep fd yay pfetch man-pages p7zip openssh
 RUN yes | pacman -Scc
 
-RUN printf "en_US.UTF-8 UTF-8\nit_IT.UTF-8 UTF-8"
+COPY ./locale.gen /etc/locale.gen
+COPY ./locale.conf /etc/locale.conf
 RUN locale-gen
 
-COPY ./locale.conf /etc/locale.conf
-
-ENV TERM=xterm
+RUN chsh -s /usr/bin/zsh
 
 CMD ["/usr/bin/zsh"]
-
